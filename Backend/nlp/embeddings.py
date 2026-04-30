@@ -1,12 +1,11 @@
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
-
-# Load model once
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
 def get_similarity(text1, text2):
-    emb1 = model.encode([text1])
-    emb2 = model.encode([text2])
+    text1 = text1.lower()
+    text2 = text2.lower()
 
-    score = cosine_similarity(emb1, emb2)[0][0]
-    return float(score)
+    words1 = set(text1.split())
+    words2 = set(text2.split())
+
+    if not words1 or not words2:
+        return 0.0
+
+    return len(words1 & words2) / len(words1 | words2)
