@@ -14,13 +14,9 @@ from db.database import init_db
 
 app = FastAPI(title="Resume Screening AI", version="1.0.0")
 
-# Read allowed origins from .env
-allowed_origins_str = os.getenv("ALLOWED_ORIGINS", "*")
-allowed_origins = [o.strip() for o in allowed_origins_str.split(",")]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,   # reads from .env
+    allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
